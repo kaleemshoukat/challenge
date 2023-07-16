@@ -18,10 +18,10 @@ services:
       - DB_HOST=127.0.0.1
       - DB_PORT=27017
       - DB_NAME=challenge_db
-    links:
-      - mongo
     depends_on:
       - mongo
+    networks:
+      - node-network
   movie_service:
     container_name: movie_service
     image: movie_service_template
@@ -40,13 +40,16 @@ services:
       - DB_HOST=127.0.0.1
       - DB_PORT=27017
       - DB_NAME=challenge_db
-    links:
-      - mongo
     depends_on:
       - mongo
+    networks:
+      - node-network
   mongo:
     image: mongo:6.0
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME:
       MONGO_INITDB_ROOT_PASSWORD:
+networks:
+  node-network:
+    driver: bridge
