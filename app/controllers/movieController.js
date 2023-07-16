@@ -4,12 +4,12 @@ const apiResponse = require('../helpers/apiResponse');
 exports.create= async (req, res) => {
     try{
         const body=req.body;
-        const movie=await Movie.findOne({name: body.name});
-        if (movie){
+        const check=await Movie.findOne({name: body.name});
+        if (check){
             return res.status(400).send(apiResponse.error('Movie name already exists.'));
         }
 
-        await Movie.create({
+        const movie = await Movie.create({
             name: body.name,
             description: body.description,
             releaseDate: body.releaseDate,
@@ -17,8 +17,9 @@ exports.create= async (req, res) => {
             duration: body.duration,
             rating: body.rating
         });
+        const data = {movie: movie};
 
-        return res.status(200).send(apiResponse.success('Movie created successfully!'));
+        return res.status(200).send(apiResponse.success('Movie created successfully!', data));
     }
     catch (error) {
         return res.status(error.status || 400).send(apiResponse.error(error.message));

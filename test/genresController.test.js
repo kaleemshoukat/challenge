@@ -19,7 +19,7 @@ describe('Genres', function() {
                 .post('/api/genres/create')
                 .send({
                     name: "Test",
-                    description: "Test movies description."
+                    description: "Test genres description."
                 });
 
             expect(response.statusCode).toBe(200);
@@ -31,7 +31,7 @@ describe('Genres', function() {
                 .post('/api/genres/create')
                 .send({
                     name: "",
-                    description: "Test movies description."
+                    description: "Test genres description."
                 });
 
             expect(response.statusCode).toBe(400);
@@ -68,7 +68,7 @@ describe('Genres', function() {
                 .put(`/api/genres/update/${id}`)
                 .send({
                     name: "Test update",
-                    description: "Test updated movies description."
+                    description: "Test updated genres description."
                 });
 
             expect(response.statusCode).toBe(200);
@@ -79,7 +79,7 @@ describe('Genres', function() {
                 .put(`/api/genres/update/7979879`)
                 .send({
                     name: "Test update",
-                    description: "Test updated movies description."
+                    description: "Test updated genres description."
                 });
 
             expect(response.statusCode).toBe(400);
