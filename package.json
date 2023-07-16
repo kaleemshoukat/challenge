@@ -6,7 +6,7 @@
   "license": "ISC",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --testTimeout=5000",
     "start": "node server.js",
     "watch": "node --watch server.js",
     "lint": "eslint app/** config/**"
@@ -20,9 +20,9 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@jest-mock/express": "^2.0.2",
     "eslint": "^7.32.0",
-    "jest": "^29.6.1"
+    "jest": "^29.6.1",
+    "supertest": "^6.3.3"
   },
   "engines": {
     "node": "18.16.0",
@@ -30,6 +30,6 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/kaleemshoukat/challenge"
   }
 }

@@ -1,31 +1,102 @@
-const { mockRequest, mockResponse } = require('../app/helpers/interceptor');
-const genresController = require('../app/controllers/genresController');
+const request = require('supertest');
+const app = require('../app');
+const db = require('../config/db');
 
-describe("Genres Tests", () => {
-    test("Create", async () => {
-        let req = mockRequest();
-        let res = mockResponse();
+beforeAll(async () => {
+    await db.connectTestDB();
+});
 
-        req = {
-            name: "Funny12",
-            description: "Funny12 movies test description."
-        };
-
-        await genresController.create(req, res);
-        expect(res.status).toHaveBeenCalledWith(200);
-    })
-
-    test("Create Fail", async () => {
-        let req = mockRequest();
-        let res = mockResponse();
-
-        req = {
-            name: "",
-            description: "Funny movies test description."
-        };
-
-        await genresController.create(req, res);
-        expect(res.status).toHaveBeenCalledWith(400);
-    })
-
+afterAll(async () => {
+    await db.disconnectDB();
 })
+
+let id = '';
+
+describe('Genres', function() {
+    describe('POST / => create', function() {
+        test('Should Pass', async function() {
+            const response = await request(app)
+                .post('/api/genres/create')
+                .send({
+                    name: "Test",
+                    description: "Test movies description."
+                });
+
+            expect(response.statusCode).toBe(200);
+            id = response.body.data.genres._id;
+        });
+
+        test('Should Fail', async function() {
+            const response = await request(app)
+                .post('/api/genres/create')
+                .send({
+                    name: "",
+                    description: "Test movies description."
+                });
+
+            expect(response.statusCode).toBe(400);
+        });
+    });
+
+    describe('GET / => list', function() {
+        test('Should Pass', async function() {
+            const response = await request(app).get('/api/genres/list');
+            expect(response.statusCode).toBe(200);
+        });
+
+        test('Should Fail', async function() {
+            const response = await request(app).get('/api/genres/list-genres');
+            expect(response.statusCode).toBe(404);
+        });
+    });
+
+    describe('GET / => edit', function() {
+        test('Should Pass', async function() {
+            const response = await request(app).get(`/api/genres/edit/${id}`);
+            expect(response.statusCode).toBe(200);
+        });
+
+        test('Should Fail', async function() {
+            const response = await request(app).get(`/api/genres/edit/8979798789`);
+            expect(response.statusCode).toBe(400);
+        });
+    });
+
+    describe('PUT / => update', function() {
+        test('Should Pass', async function() {
+            const response = await request(app)
+                .put(`/api/genres/update/${id}`)
+                .send({
+                    name: "Test update",
+                    description: "Test updated movies description."
+                });
+
+            expect(response.statusCode).toBe(200);
+        });
+
+        test('Should Fail', async function() {
+            const response = await request(app)
+                .put(`/api/genres/update/7979879`)
+                .send({
+                    name: "Test update",
+                    description: "Test updated movies description."
+                });
+
+            expect(response.statusCode).toBe(400);
+        });
+    });
+
+    describe('Delete / => delete', function() {
+        test('Should Pass', async function() {
+            const response = await request(app).delete(`/api/genres/delete/${id}`);
+            expect(response.statusCode).toBe(200);
+        });
+
+        test('Should Fail', async function() {
+            const response = await request(app).delete(`/api/genres/delete/8979798789`);
+            expect(response.statusCode).toBe(400);
+        });
+    });
+
+});
+
