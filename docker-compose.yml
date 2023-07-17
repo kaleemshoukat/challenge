@@ -14,10 +14,7 @@ services:
       - DEBUG=true
       - API_URL=http://localhost
       - API_PORT=3000
-      - DB_CLIENT=mongodb
-      - DB_HOST=127.0.0.1
-      - DB_PORT=27017
-      - DB_NAME=challenge_db
+      - DB_MONGO_URL=mongodb://mongo:27017    #this string is different form .env file
     depends_on:
       - mongo
     networks:
@@ -36,10 +33,7 @@ services:
       - DEBUG=true
       - API_URL=http://localhost
       - API_PORT=3001
-      - DB_CLIENT=mongodb
-      - DB_HOST=127.0.0.1
-      - DB_PORT=27017
-      - DB_NAME=challenge_db
+      - DB_MONGO_URL=mongodb://mongo:27017    #this string is different form .env file
     depends_on:
       - mongo
     networks:
@@ -48,8 +42,13 @@ services:
     image: mongo:6.0
     restart: always
     environment:
+      MONGO_INITDB_DATABASE: challenge_db
       MONGO_INITDB_ROOT_USERNAME:
       MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - ./data/:/data/db
+    networks:
+      - node-network
 networks:
   node-network:
     driver: bridge

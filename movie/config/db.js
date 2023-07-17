@@ -1,9 +1,8 @@
 const mongoose= require('mongoose');
 
-const url=`${process.env.DB_CLIENT}://${process.env.DB_HOST}:${process.env.DB_PORT}`
-
+// const url=`${process.env.DB_CLIENT}://${process.env.DB_HOST}:${process.env.DB_PORT}`
 const connectDB = async () => {
-    mongoose.connect(url, {
+    mongoose.connect(process.env.DB_MONGO_URL, {
         dbName: process.env.DB_NAME,
         user: process.env.DB_USER,
         pass: process.env.DB_PASS,
