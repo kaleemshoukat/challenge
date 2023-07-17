@@ -46,7 +46,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME:
       MONGO_INITDB_ROOT_PASSWORD:
     volumes:
-      - ./data/:/data/db
+      - ./db-data/:/data/db
     networks:
       - node-network
 networks:
