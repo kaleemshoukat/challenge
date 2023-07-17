@@ -31,5 +31,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kaleemshoukat/challenge"
+  },
+  "postman": {
+    "url": "https://documenter.getpostman.com/view/11309717/2s946h7X3z"
   }
 }
